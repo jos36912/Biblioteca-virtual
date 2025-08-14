@@ -1,0 +1,50 @@
+[
+  {
+    "titulo": "Cien años de soledad",
+    "autor": "Gabriel García Márquez",
+    "descripcion": "Una epopeya familiar cargada de realismo mágico en el mítico Macondo.",
+    "id": "1Nqf5N-g7tteq7Sh4IE7PvwQfZdDMhlUd"
+  },
+  {
+    "titulo": "Edipo Rey",
+    "autor": "Sófocles",
+    "descripcion": "Una tragedia griega clásica sobre el destino, la culpa y el conocimiento prohibido.",
+    "id": "16gkZGHYlFO9CutTm15mKJKiAcvmyRfwA"
+  },
+  {
+    "titulo": "1984",
+    "autor": "George Orwell",
+    "descripcion": "Una distopía sobre la vigilancia totalitaria y la manipulación del pensamiento.",
+    "id": "1Isxf1OAd0-6QkWN72y91UsRt_aaylFMl"
+  },
+  {
+    "titulo": "Las 48 leyes del poder",
+    "autor": "Robert Greene",
+    "descripcion": "Una guía cruda y estratégica sobre la dinámica del poder y la influencia.",
+    "id": "1QuM-bFqZU36VebRejJSAHByPfE3nkLst"
+  },
+  {
+    "titulo": "Los cuatro acuerdos",
+    "autor": "Don Miguel Ruiz",
+    "descripcion": "Un código de conducta tolteca para alcanzar libertad personal y paz interior.",
+    "id": "1arfPzXSgL2tW5jH9uHlBziN5ljItGk8e"
+  },
+  {
+    "titulo": "Sobre la brevedad de la vida",
+    "autor": "Séneca",
+    "descripcion": "Una reflexión filosófica sobre cómo aprovechar verdaderamente el tiempo.",
+    "id": "1Wnzyi2AS9esaOS1k4Z_95yTBq9MEzoDg"
+  },
+  {
+    "titulo": "Dune (Libro 1)",
+    "autor": "Frank Herbert",
+    "descripcion": "Una saga de política, religión y ecología en un planeta desértico lleno de secretos.",
+    "id": "1zHtU1G3-_LKAX8IpjhuLLV-lSVl1fJyQ"
+  },
+  {
+  "titulo": "PRINCIPIOS DE ADMINISTRACION                      DE OPERACIONES 9ed",
+  "autor": "Jay Heizer y Barry Render",
+  "descripcion": "Manual académico clave que aborda los fundamentos, estrategias y herramientas utilizadas en la gestión eficiente de operaciones dentro de organizaciones productivas y de servicios. Ideal para estudiantes de administración y futuros gerentes de operaciones.",
+  "id": "10Ny-H8J2kRikxwpUVXuL8FqE20LNmcY5"
+}
+]

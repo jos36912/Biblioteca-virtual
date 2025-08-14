@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Virtual</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<!-- data-theme se establecerá con JS al cargar -->
+<div id="bookModal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <button id="closeModal" class="modal-close" aria-label="Cerrar ventana">&times;</button>
+    <h2 id="modalTitulo"></h2>
+    <p><strong>Autor:</strong> <span id="modalAutor"></span></p>
+    <p><strong>Descripción:</strong> <span id="modalDescripcion"></span></p>
+    <a id="modalDescarga" class="modal-download" href="#" target="_blank">Descargar PDF</a>
+  </div>
+</div>
+<body >
+
+    <header class="site-header">
+        <div class="theme-switcher" aria-label="Selector de tema visual">
+            <!-- Los botones obtendrán la clase 'active' con JS -->
+            <button data-theme="claro" aria-label="Activar tema claro" title="Tema Claro" class="theme-dot"></button>
+            <button data-theme="oscuro" aria-label="Activar tema oscuro" title="Tema Oscuro" class="theme-dot"></button>
+            <button data-theme="daltonico" aria-label="Activar tema para daltónicos" title="Tema Daltónico" class="theme-dot"></button>
+        </div>
+        <h1>Biblioteca Virtual</h1>
+    </header>
+
+    <main class="main-content">
+        <div class="search-container">
+            <label for="searchInput" class="sr-only">Buscar libros por título</label>
+            <input type="search" id="searchInput" placeholder="Buscar libro por título...<(ꈍ⁠ᴗ⁠ꈍ⁠)~✿">
+        </div>
+
+        <p class="info-text">
+            Busca un libro específico o explora todos los títulos disponibles
+            directamente en nuestra carpeta pública.
+        </p><br>
+<a href="https://drive.google.com/drive/folders/1KIGKCF5jQ1yj4fUIVebLvr-dQ-W74qqr"
+     target="_blank"
+     rel="noopener noreferrer"
+     class="btn-ultra"
+     id="btnUltraInstinto">
+    ACCEDER A LA CARPETA 📜
+  </a>
+
+        <section id="resultsContainer" aria-live="polite">
+            <!-- Los resultados de la búsqueda aparecerán aquí dinámicamente -->
+            <!-- Un mensaje inicial podría ir aquí o ser manejado por JS -->
+            <p id="initialMessage">Escribe en la barra de búsqueda para encontrar libros.</p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <!-- Actualizado el año dinámicamente si se desea, pero 2023 está bien -->
+        <p>© 2025 Tu Biblioteca Virtual – Todos los derechos reservados.</p>      <p> Por J.JOSNEYVIN – Todos los derechos reservados.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
