@@ -1,5 +1,12 @@
 # Biblioteca Virtual
 
+
+
+![preview](public/biblio.png)
+
+
+
+
 Una página web de biblioteca virtual que permite organizar y consultar recursos de manera sencilla.  
 El proyecto está enfocado en la gestión de libros, materiales educativos y referencias digitales.
 
