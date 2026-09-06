@@ -259,6 +259,7 @@ function renderFormModule(view, def) {
   supabaseClient
     .from(def.table)
     .select('*')
+    .eq('id', 1)
     .maybeSingle()
     .then(({ data, error }) => {
       if (error) {

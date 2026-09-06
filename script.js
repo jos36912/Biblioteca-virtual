@@ -1,5 +1,7 @@
 const SITE_CONFIG = window.SITE_CONFIG || {};
 
+const SITE_CONTEXT = (SITE_CONFIG.context || 'tech').toLowerCase();
+
 const DATA_URL = SITE_CONFIG.data_url || 'data/content.json';
 
 const DEFAULT_SITE = Object.assign(
@@ -45,6 +47,26 @@ function itemVisibleForCurrent(item) {
   if (!item.visibility) return true;
   if (isRecruiterActive()) return item.visibility === 'public' || item.visibility === 'recruiter';
   return item.visibility === 'public';
+}
+
+function matchesContext(item) {
+  if (!item || !item.context) return true;
+  return item.context === SITE_CONTEXT || item.context === 'ambos';
+}
+
+function resolveContextRow(rows) {
+  if (!rows) return {};
+  const list = Array.isArray(rows) ? rows : [rows];
+  return (
+    list.find((row) => row.context === SITE_CONTEXT) ||
+    list.find((row) => !row.context || row.context === 'ambos') ||
+    list[0] ||
+    {}
+  );
+}
+
+function filterByContext(list) {
+  return (list || []).filter(matchesContext);
 }
 
 function fieldHasContent(item, key) {
@@ -991,13 +1013,13 @@ function mergeObjectFields(base, extra) {
 function buildExtendedData(content) {
   return {
     ...publicData,
-    experience: content.experience || [],
-    education: content.education || [],
-    projects: content.projects || [],
-    skills: content.skills || [],
-    certifications: content.certifications || [],
-    profile: mergeObjectFields(publicData.profile, content.profile),
-    contact: mergeObjectFields(publicData.contact, content.contact)
+    experience: filterByContext(content.experience),
+    education: filterByContext(content.education),
+    projects: filterByContext(content.projects),
+    skills: filterByContext(content.skills),
+    certifications: filterByContext(content.certifications),
+    profile: mergeObjectFields(resolveContextRow(publicData.profile), resolveContextRow(content.profile)),
+    contact: mergeObjectFields(resolveContextRow(publicData.contact), resolveContextRow(content.contact))
   };
 }
 
@@ -1216,24 +1238,24 @@ function normalizeContent(data) {
   return {
     site: DEFAULT_SITE,
     sections: DEFAULT_SECTIONS,
-    profile: data.profile || {},
-    experience: data.experience || [],
-    education: data.education || [],
-    projects: data.projects || [],
-    skills: data.skills || [],
-    certifications: data.certifications || [],
-    contact: data.contact || {}
+    profile: resolveContextRow(data.profile),
+    experience: filterByContext(data.experience),
+    education: filterByContext(data.education),
+    projects: filterByContext(data.projects),
+    skills: filterByContext(data.skills),
+    certifications: filterByContext(data.certifications),
+    contact: resolveContextRow(data.contact)
   };
 }
 
 async function loadSupabaseContent() {
   const [profile, experience, education, projects, skills, contact, certifications] = await Promise.all([
-    fetchSupabaseTable('profile_public', true),
+    fetchSupabaseTable('profile_public'),
     fetchSupabaseTable('experience'),
     fetchSupabaseTable('education'),
     fetchSupabaseTable('projects'),
     fetchSupabaseTable('skills'),
-    fetchSupabaseTable('contact_public', true),
+    fetchSupabaseTable('contact_public'),
     fetchSupabaseTable('certifications_public')
   ]);
   return normalizeContent({ profile, experience, education, projects, skills, contact, certifications });
