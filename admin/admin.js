@@ -43,6 +43,26 @@ const VISIBILITY_OPTIONS = [
 
 const VISIBILITY_LABELS = Object.fromEntries(VISIBILITY_OPTIONS);
 
+const CONTEXT_OPTIONS = [
+  ['tech', 'Tech'],
+  ['trayectoria', 'Trayectoria'],
+  ['ambos', 'Ambos']
+];
+const CONTEXT_LABELS = Object.fromEntries(CONTEXT_OPTIONS);
+
+function renderContextSelect(value) {
+  const select = el('select', 'module-input module-select');
+  CONTEXT_OPTIONS.forEach(([key, label]) => {
+    const option = el('option', null, label);
+    option.value = key;
+    if (key === value) option.selected = true;
+    select.appendChild(option);
+  });
+  return select;
+}
+
+const CONTEXT_FALLBACK_ID = { tech: 1, trayectoria: 2 };
+
 function renderVisibilitySelect(value) {
   const select = el('select', 'module-input module-select');
   VISIBILITY_OPTIONS.forEach(([key, label]) => {
@@ -226,6 +246,12 @@ function renderFormModule(view, def) {
   const inputs = {};
   const visibilitySelects = {};
 
+  const contextRow = el('div', 'module-field-row');
+  contextRow.appendChild(el('label', 'module-label', 'Sitio (contexto)'));
+  const contextSelect = renderContextSelect('tech');
+  contextRow.appendChild(contextSelect);
+  form.appendChild(contextRow);
+
   def.fields.forEach(([key, label, type]) => {
     const row = el('div', 'module-field-row');
     row.appendChild(el('label', 'module-label', label));
@@ -256,31 +282,42 @@ function renderFormModule(view, def) {
   form.appendChild(actions);
   view.appendChild(form);
 
-  supabaseClient
-    .from(def.table)
-    .select('*')
-    .eq('id', 1)
-    .maybeSingle()
-    .then(({ data, error }) => {
-      if (error) {
-        showFeedback(feedback, 'No se pudo cargar el ' + def.itemLabel.toLowerCase() + '. ¿Ejecutaste supabase/schema.sql?', true);
-        return;
-      }
-      if (data) {
-        def.fields.forEach(([key, _label, type]) => {
-          const value = data[key];
-          inputs[key].value = type === 'list' ? (value || []).join('\n') : (value || '');
-          const visSelect = visibilitySelects[key];
-          if (visSelect) visSelect.value = data[key + '_visibility'] || 'public';
-        });
-      }
+  let currentRowId = null;
+
+  function populateWhenLoaded(data) {
+    const values = data || {};
+    def.fields.forEach(([key, _label, type]) => {
+      inputs[key].value = type === 'list' ? (values[key] || []).join('\n') : (values[key] || '');
+      const visSelect = visibilitySelects[key];
+      if (visSelect) visSelect.value = values[key + '_visibility'] || 'public';
     });
+  }
+
+  function loadForContext() {
+    const context = contextSelect.value;
+    supabaseClient
+      .from(def.table)
+      .select('*')
+      .eq('context', context)
+      .maybeSingle()
+      .then(({ data, error }) => {
+        if (error) {
+          showFeedback(feedback, 'No se pudo cargar el ' + def.itemLabel.toLowerCase() + '. ¿Ejecutaste supabase/multisite.sql?', true);
+          return;
+        }
+        currentRowId = data ? data.id : CONTEXT_FALLBACK_ID[context];
+        populateWhenLoaded(data);
+      });
+  }
+
+  contextSelect.addEventListener('change', loadForContext);
+  loadForContext();
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     feedback.hidden = true;
 
-    const payload = { id: 1 };
+    const payload = { id: currentRowId, context: contextSelect.value };
     def.fields.forEach(([key, _label, type]) => {
       payload[key] = fieldValue(inputs[key], type);
       const visSelect = visibilitySelects[key];
@@ -322,28 +359,53 @@ function renderListModule(view, def) {
 
       if (error) {
         view.appendChild(
-          el('p', 'module-feedback module-feedback--error', 'No se pudieron cargar los datos. ¿Ejecutaste supabase/schema.sql?')
+          el('p', 'module-feedback module-feedback--error', 'No se pudieron cargar los datos. ¿Ejecutaste supabase/multisite.sql?')
         );
         return;
       }
 
+      const rows = data || [];
+
       const toolbar = el('div', 'module-toolbar');
-      toolbar.appendChild(el('span', 'module-count', data.length + ' registro(s)'));
+      const countEl = el('span', 'module-count', rows.length + ' registro(s)');
+      toolbar.appendChild(countEl);
+
+      const filterSelect = el('select', 'module-input module-select module-context-filter');
+      const FILTER_OPTIONS = [['all', 'Todos los sitios'], ...CONTEXT_OPTIONS];
+      FILTER_OPTIONS.forEach(([key, label]) => {
+        const option = el('option', null, label);
+        option.value = key;
+        filterSelect.appendChild(option);
+      });
+      toolbar.appendChild(filterSelect);
+
       const newButton = el('button', 'btn btn--small', 'Nuevo');
       newButton.type = 'button';
       newButton.addEventListener('click', () => renderItemForm(view, def, null));
       toolbar.appendChild(newButton);
       view.appendChild(toolbar);
 
-      if (!data.length) {
+      const list = el('div', 'module-list');
+
+      function applyFilter() {
+        const filter = filterSelect.value;
+        const filtered =
+          filter === 'all'
+            ? rows
+            : rows.filter((row) => (row.context || 'ambos') === filter);
+        countEl.textContent = filtered.length + ' registro(s)';
+        list.innerHTML = '';
+        filtered.forEach((row) => list.appendChild(buildItemCard(view, row, def)));
+      }
+
+      filterSelect.addEventListener('change', applyFilter);
+      applyFilter();
+
+      if (!rows.length) {
         view.appendChild(el('p', 'module-empty', 'No hay registros todavía. Crea el primero.'));
         return;
       }
 
-      const list = el('div', 'module-list');
-      data.forEach((row) => {
-        list.appendChild(buildItemCard(view, row, def));
-      });
       view.appendChild(list);
     });
 }
@@ -563,6 +625,9 @@ function buildItemCard(view, row, def) {
     );
   }
 
+  const context = row.context || 'ambos';
+  card.appendChild(el('span', 'module-badge module-badge--ctx-' + context, CONTEXT_LABELS[context] || context));
+
   if (row.tech) {
     card.appendChild(el('span', 'module-badge module-badge--tech', 'Tech'));
   }
@@ -677,7 +742,13 @@ function renderItemForm(view, def, row) {
   const visibility = renderVisibilitySelect(editing ? row.visibility || 'public' : 'public');
   visRow.appendChild(visibility);
 
+  const ctxRow = el('div', 'module-field-row');
+  ctxRow.appendChild(el('label', 'module-label', 'Contexto'));
+  const context = renderContextSelect(editing && row.context ? row.context : 'ambos');
+  ctxRow.appendChild(context);
+
   form.appendChild(feedback);
+  form.appendChild(ctxRow);
   form.appendChild(visRow);
   form.appendChild(actions);
   view.appendChild(form);
@@ -706,6 +777,7 @@ function renderItemForm(view, def, row) {
           : fieldValue(inputs[key], type);
     });
     payload.visibility = visibility.value;
+    payload.context = context.value;
 
     submit.disabled = true;
     submit.textContent = 'Guardando...';

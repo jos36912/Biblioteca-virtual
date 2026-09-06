@@ -259,6 +259,29 @@
   background: rgba(29, 78, 216, 0.15);
 }
 
+.module-badge--ctx-tech {
+  color: #5fc3d8;
+  border-color: #0e7490;
+  background: rgba(14, 116, 144, 0.18);
+}
+
+.module-badge--ctx-trayectoria {
+  color: #e6c07c;
+  border-color: #92600e;
+  background: rgba(146, 96, 14, 0.18);
+}
+
+.module-badge--ctx-ambos {
+  color: #b6bec9;
+  border-color: #4b5563;
+  background: rgba(75, 85, 99, 0.18);
+}
+
+.module-context-filter {
+  width: auto;
+  margin-left: auto;
+}
+
 .module-input--checkbox {
   width: 22px;
   height: 22px;
