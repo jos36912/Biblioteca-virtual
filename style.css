@@ -17,7 +17,7 @@
     Consolas, "Liberation Mono", monospace;
   --max-width: 1280px;
   --card-width: 320px;
-  --sidebar-w: 244px;
+  --sidebar-w: 280px;
 
   /* Acento único (verde terminal) — igual en ambas variantes */
   --accent: #22c55e;
@@ -192,10 +192,10 @@ a:hover {
 
   .sidebar-brand {
     font-family: var(--font-mono);
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--text);
-    padding: 0 6px 16px;
+    padding: 0 6px 22px;
     border-bottom: 1px solid var(--border);
     letter-spacing: -0.02em;
   }
@@ -208,35 +208,57 @@ a:hover {
   .sidebar-nav {
     flex: 1;
     overflow-y: auto;
-    margin-top: 14px;
+    margin-top: 20px;
   }
 
   .sidebar-nav ul {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 14px;
+  }
+
+  .sidebar-group {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    padding: 4px 14px;
+    margin-bottom: -4px;
+    position: relative;
+  }
+
+  .sidebar-group::after {
+    content: "";
+    position: absolute;
+    left: 14px;
+    right: 6px;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-hover), transparent);
   }
 
   .sidebar-nav a {
     display: block;
     position: relative;
-    padding: 9px 14px 9px 18px;
+    padding: 12px 16px 12px 18px;
     color: var(--text-muted);
     font-family: var(--font-mono);
-    font-size: 0.84rem;
-    border-radius: 6px;
+    font-size: 0.88rem;
+    border-radius: 8px;
     border-left: 2px solid transparent;
     transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
   }
 
   .sidebar-nav a::before {
-    content: "●";
-    font-size: 0.45rem;
-    vertical-align: middle;
-    margin-right: 9px;
-    color: var(--border-hover);
-    transform: translateY(-1px);
+    content: attr(data-num);
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    opacity: 0.6;
+    letter-spacing: 0.04em;
+    margin-right: 12px;
+    vertical-align: 1px;
     display: inline-block;
   }
 
@@ -249,6 +271,7 @@ a:hover {
 
   .sidebar-nav a:hover::before {
     color: var(--accent);
+    opacity: 1;
   }
 
   .sidebar-nav a.active {
@@ -259,22 +282,77 @@ a:hover {
 
   .sidebar-nav a.active::before {
     color: var(--accent-soft);
+    opacity: 1;
     text-shadow: 0 0 8px var(--accent);
   }
 
-  .sidebar-count {
-    margin-top: 14px;
-    padding-top: 14px;
+  .sidebar-status {
+    margin-top: 18px;
+    padding-top: 16px;
     border-top: 1px solid var(--border);
-    font-family: var(--font-mono);
-    font-size: 0.74rem;
-    color: var(--text-muted);
-    letter-spacing: 0.04em;
   }
 
-  .sidebar-count::before {
-    content: "▸ ";
+  .sidebar-avail {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    padding: 0 6px;
+  }
+
+  .sidebar-avail-dot {
+    flex: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+    animation: sidebar-pulse 2.2s ease-out infinite;
+  }
+
+  @keyframes sidebar-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.45);
+    }
+    70% {
+      box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+  }
+
+  .sidebar-socials {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 0 6px;
+  }
+
+  .sidebar-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .sidebar-social:hover {
     color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .sidebar-social svg {
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -1215,5 +1293,9 @@ a:hover {
   .skill-group:hover {
     transform: none;
     box-shadow: var(--shadow);
+  }
+
+  .sidebar-avail-dot {
+    animation: none;
   }
 }

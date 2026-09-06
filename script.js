@@ -20,6 +20,15 @@ const DEFAULT_SECTIONS = SITE_CONFIG.sections || [
   { id: 'reclutador', label: 'Reclutador', type: 'recruiter' }
 ];
 
+const SIDEBAR_NAV = [
+  { id: 'inicio', label: 'Inicio', group: 'Menú' },
+  { id: 'sobre-mi', label: 'Sobre mí', group: 'Perfil' },
+  { id: 'cv', label: 'Experiencia', group: 'Perfil' },
+  { id: 'proyectos', label: 'Proyectos', group: 'Trabajo' },
+  { id: 'habilidades', label: 'Habilidades', group: 'Trabajo' },
+  { id: 'contacto', label: 'Contacto', group: 'Contacto' }
+];
+
 const app = document.getElementById('app');
 
 const SESSION_KEY = 'recruiter_session';
@@ -129,7 +138,7 @@ function el(tag, className, text) {
   return node;
 }
 
-function buildHeader(sections) {
+function buildHeader(sections, data) {
   const header = el('header', 'site-header');
   const nav = el('nav', 'nav');
   const list = el('ul');
@@ -147,34 +156,77 @@ function buildHeader(sections) {
   header.appendChild(nav);
   document.body.prepend(header);
 
-  if (SITE_CONTEXT === 'tech') buildSidebar(sections);
+  if (SITE_CONTEXT === 'tech') buildSidebar(sections, data);
 }
 
-function buildSidebar(sections) {
-  if (!document.getElementById('sidebar-nav')) {
-    const count = Math.max(sections.length, 6);
-    const brand = el('div', 'sidebar-brand');
-    brand.textContent = '~/jeyson';
-    const countEl = el('div', 'sidebar-count');
-    countEl.textContent = String(count).padStart(2, '0') + ' secciones';
-    const sid = el('aside', 'nav-sidebar');
-    sid.id = 'sidebar-nav';
-    const cols = el('nav', 'sidebar-nav');
-    const list = el('ul');
-    sections.forEach((section) => {
-      const item = el('li');
-      const link = el('a', null, section.label);
-      link.href = '#' + section.id;
-      link.dataset.section = section.id;
-      item.appendChild(link);
-      list.appendChild(item);
-    });
-    cols.appendChild(list);
-    sid.appendChild(brand);
-    sid.appendChild(cols);
-    sid.appendChild(countEl);
-    document.body.appendChild(sid);
-  }
+function buildSidebar(sections, data) {
+  if (document.getElementById('sidebar-nav')) return;
+
+  const rendered = new Set(sections.map((section) => section.id));
+  const items = SIDEBAR_NAV.filter((item) => rendered.has(item.id));
+  if (!items.length) return;
+
+  const brand = el('div', 'sidebar-brand');
+  brand.textContent = '~/jeyson';
+  const sid = el('aside', 'nav-sidebar');
+  sid.id = 'sidebar-nav';
+  const cols = el('nav', 'sidebar-nav');
+  const list = el('ul');
+
+  let number = 0;
+  let lastGroup = null;
+  items.forEach((item) => {
+    if (item.group !== lastGroup) {
+      list.appendChild(el('li', 'sidebar-group', item.group));
+      lastGroup = item.group;
+    }
+    const li = el('li');
+    const link = el('a', null, item.label);
+    link.href = '#' + item.id;
+    link.dataset.section = item.id;
+    number += 1;
+    link.dataset.num = String(number).padStart(2, '0');
+    li.appendChild(link);
+    list.appendChild(li);
+  });
+
+  cols.appendChild(list);
+  sid.appendChild(brand);
+  sid.appendChild(cols);
+  sid.appendChild(buildSidebarStatus(data));
+  document.body.appendChild(sid);
+}
+
+function buildSidebarStatus(data) {
+  const status = el('div', 'sidebar-status');
+  const avail = el('div', 'sidebar-avail');
+  avail.innerHTML = '<span class="sidebar-avail-dot"></span>disponible para proyectos';
+  status.appendChild(avail);
+
+  const socials = el('div', 'sidebar-socials');
+  const contact = (data && data.contact) || {};
+  const entries = [
+    { key: 'email', label: 'Correo', value: contact.email, href: 'mailto:' + contact.email },
+    { key: 'github', label: 'GitHub', value: contact.github },
+    { key: 'linkedin', label: 'LinkedIn', value: contact.linkedin },
+    { key: 'website', label: 'Sitio web', value: contact.website }
+  ];
+  entries.forEach((entry) => {
+    if (!isFieldVisible(contact, entry.key) || !entry.value) return;
+    const link = el('a', 'sidebar-social');
+    link.href = entry.href || entry.value;
+    link.title = entry.label;
+    link.setAttribute('aria-label', entry.label);
+    if (entry.key !== 'email') {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    }
+    link.innerHTML = SOCIAL_ICONS[entry.key] || '';
+    socials.appendChild(link);
+  });
+
+  status.appendChild(socials);
+  return status;
 }
 
 function createSection(section) {
@@ -1197,7 +1249,7 @@ function render(data) {
 
   const sections = data.sections.filter((section) => sectionHasVisibleContent(section, data));
 
-  buildHeader(sections);
+  buildHeader(sections, data);
 
   sections.forEach((section) => {
     const sec = createSection(section);
