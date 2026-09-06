@@ -1221,6 +1221,12 @@ function initRevealAnimations() {
   });
 }
 
+function timeoutSignal(ms) {
+  return typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function'
+    ? AbortSignal.timeout(ms)
+    : undefined;
+}
+
 async function fetchSupabaseTable(table, single) {
   const config = window.CONFIG;
   const url = config.SUPABASE_URL + '/rest/v1/' + table + '?select=*&order=id.asc';
@@ -1228,7 +1234,8 @@ async function fetchSupabaseTable(table, single) {
     apikey: config.SUPABASE_ANON_KEY,
     Authorization: 'Bearer ' + config.SUPABASE_ANON_KEY
   };
-  const response = await fetch(url, { headers });
+  const signal = timeoutSignal(8000);
+  const response = await fetch(url, { headers, ...(signal ? { signal } : {}) });
   if (!response.ok) throw new Error(table + ': HTTP ' + response.status);
   const rows = await response.json();
   return single ? rows[0] : rows;
@@ -1269,7 +1276,8 @@ async function loadContent() {
       console.warn('Supabase no disponible, usando content.json:', error.message);
     }
   }
-  const response = await fetch(DATA_URL);
+  const signal = timeoutSignal(8000);
+  const response = await fetch(DATA_URL, signal ? { signal } : {});
   if (!response.ok) throw new Error('HTTP ' + response.status);
   return normalizeContent(await response.json());
 }
