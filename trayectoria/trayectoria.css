@@ -24,24 +24,26 @@ body::after {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.85;
+  opacity: 0.9;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='760' viewBox='0 0 1200 760'%3E%3Cg fill='none' stroke='%234fb3c8'%3E%3Cpath d='M80 700 C 360 520 500 660 680 520 S 980 200 1200 320' stroke-opacity='0.16' stroke-width='1.2'/%3E%3Ccircle cx='680' cy='520' r='8' fill='%234fb3c8' fill-opacity='0.28' stroke='none'/%3E%3Ccircle cx='680' cy='520' r='30' stroke-opacity='0.1'/%3E%3Ccircle cx='840' cy='350' r='6' fill='%234fb3c8' fill-opacity='0.22' stroke='none'/%3E%3Ccircle cx='840' cy='350' r='24' stroke-opacity='0.08'/%3E%3Cpath d='M40 60 h200 m-100-40 v80' stroke-opacity='0.1'/%3E%3Ccircle cx='40' cy='60' r='12' stroke-opacity='0.14'/%3E%3Cpath d='M980 640 h160' stroke-opacity='0.1'/%3E%3Crect x='980' y='620' width='40' height='40' stroke-opacity='0.14'/%3E%3Ccircle cx='1120' cy='110' r='80' stroke-opacity='0.06'/%3E%3Ccircle cx='1120' cy='110' r='150' stroke-opacity='0.04'/%3E%3Cpath d='M300 60 c 120 80 240 -40 360 20' stroke-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: top right;
   background-size: 1500px 950px;
   -webkit-mask-image: linear-gradient(135deg, #000 30%, transparent 96%);
   mask-image: linear-gradient(135deg, #000 30%, transparent 96%);
-  transform-origin: 88% 10%;
-  will-change: transform;
-  animation: trayectoria-bg-live 55s ease-in-out infinite alternate;
+  transform-origin: 50% 40%;
+  will-change: transform, opacity;
+  animation: trayectoria-bg-live 30s ease-in-out infinite alternate;
 }
 
 @keyframes trayectoria-bg-live {
   from {
     transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+    opacity: 0.9;
   }
   to {
-    transform: translate3d(-26px, 22px, 0) rotate(-2.2deg) scale(1.08);
+    transform: translate3d(-150px, 95px, 0) rotate(-4deg) scale(1.14);
+    opacity: 0.5;
   }
 }
 
@@ -54,13 +56,54 @@ body::after {
   min-width: 340px;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.6;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='900' viewBox='0 0 340 900'%3E%3Cg fill='none' stroke='%234fb3c8'%3E%3Cpath d='M150 0 v900' stroke-opacity='0.12' stroke-width='1.4' stroke-dasharray='2 7'/%3E%3Ccircle cx='150' cy='120' r='10' fill='%234fb3c8' fill-opacity='0.22'/%3E%3Ccircle cx='150' cy='120' r='26' stroke-opacity='0.1'/%3E%3Cpath d='M150 120 h70 v-40 h190' stroke-opacity='0.1'/%3E%3Ccircle cx='150' cy='330' r='7' fill='%23d4a44c' fill-opacity='0.22'/%3E%3Cpath d='M150 330 h-60 v60 h-90' stroke-opacity='0.08'/%3E%3Ccircle cx='150' cy='540' r='8' fill='%234fb3c8' fill-opacity='0.2'/%3E%3Cpath d='M150 540 h80 v44 h110' stroke-opacity='0.08'/%3E%3Ccircle cx='150' cy='740' r='6' fill='%23d4a44c' fill-opacity='0.18'/%3E%3Cpath d='M150 740 h-52 v-56 h-98' stroke-opacity='0.07'/%3E%3C/g%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: left center;
   background-size: contain;
   -webkit-mask-image: linear-gradient(to right, #000 34%, transparent 96%);
   mask-image: linear-gradient(to right, #000 34%, transparent 96%);
+  transform-origin: left center;
+  will-change: transform;
+  animation: trayectoria-route-live 42s ease-in-out infinite alternate;
+}
+
+@keyframes trayectoria-route-live {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-26px, 0, 0) scale(1.08);
+  }
+}
+
+.bg-layer--dots {
+  position: fixed;
+  right: 6%;
+  bottom: 6%;
+  width: min(340px, 42vw);
+  height: 400px;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.6;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='420' viewBox='0 0 360 420'%3E%3Cg fill='none' stroke='%234fb3c8'%3E%3Cpath d='M40 330 L 130 250 L 220 300 L 310 200' stroke-opacity='0.16' stroke-width='1'/%3E%3Ccircle cx='40' cy='330' r='4' fill='%234fb3c8' fill-opacity='0.4' stroke='none'/%3E%3Ccircle cx='130' cy='250' r='5' fill='%23d4a44c' fill-opacity='0.38' stroke='none'/%3E%3Ccircle cx='220' cy='300' r='4' fill='%234fb3c8' fill-opacity='0.34' stroke='none'/%3E%3Ccircle cx='310' cy='200' r='6' fill='%23d4a44c' fill-opacity='0.4' stroke='none'/%3E%3Cpath d='M60 120 l12 24 12-24' stroke-opacity='0.18'/%3E%3Cpath d='M120 60 h40' stroke-opacity='0.14'/%3E%3Cpath d='M300 40 a 46 46 0 0 1 40 24' stroke-opacity='0.16'/%3E%3Ccircle cx='336' cy='92' r='3' fill='%234fb3c8' fill-opacity='0.32' stroke='none'/%3E%3Cpath d='M40 60 l30 0 m-15-15 v30' stroke-opacity='0.12'/%3E%3Ccircle cx='40' cy='60' r='10' stroke-opacity='0.14'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
+  transform-origin: center;
+  will-change: transform;
+  animation: trayectoria-dots-live 34s ease-in-out infinite alternate;
+}
+
+@keyframes trayectoria-dots-live {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  to {
+    transform: translate3d(-44px, -32px, 0) rotate(5deg) scale(1.12);
+  }
 }
 
 .section {
@@ -144,12 +187,17 @@ body::after {
   .hero-role {
     font-size: 1.15rem;
   }
+
+  .bg-layer--dots {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   body::before,
   body::after,
-  .bg-layer--route {
+  .bg-layer--route,
+  .bg-layer--dots {
     background-image: none;
     animation: none;
   }
