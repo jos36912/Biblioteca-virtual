@@ -1271,7 +1271,7 @@ async function loadContent() {
   }
   const response = await fetch(DATA_URL);
   if (!response.ok) throw new Error('HTTP ' + response.status);
-  return response.json();
+  return normalizeContent(await response.json());
 }
 
 (async function init() {
