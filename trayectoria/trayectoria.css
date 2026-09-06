@@ -31,6 +31,18 @@ body::after {
   background-size: 1500px 950px;
   -webkit-mask-image: linear-gradient(135deg, #000 30%, transparent 96%);
   mask-image: linear-gradient(135deg, #000 30%, transparent 96%);
+  transform-origin: 88% 10%;
+  will-change: transform;
+  animation: trayectoria-bg-live 55s ease-in-out infinite alternate;
+}
+
+@keyframes trayectoria-bg-live {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  to {
+    transform: translate3d(-26px, 22px, 0) rotate(-2.2deg) scale(1.08);
+  }
 }
 
 .bg-layer--route {
@@ -139,5 +151,6 @@ body::after {
   body::after,
   .bg-layer--route {
     background-image: none;
+    animation: none;
   }
 }
