@@ -293,6 +293,18 @@ function renderAbout(sec, profile) {
     inner.appendChild(list);
   }
 
+  if (SITE_CONTEXT === 'tech') {
+    const tray = el('div', 'about-trayectoria');
+    tray.appendChild(
+      el('p', 'about-trayectoria-text',
+        'Además de este perfil técnico, mantengo una página dedicada a mi hoja de vida y recorrido fuera del ámbito tech.')
+    );
+    const link = el('a', 'btn btn--small', 'Ver mi trayectoria');
+    link.href = 'trayectoria/';
+    tray.appendChild(link);
+    inner.appendChild(tray);
+  }
+
   sec.appendChild(inner);
 }
 

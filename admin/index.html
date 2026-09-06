@@ -6,30 +6,38 @@
   <title>Panel de administración</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/x-icon" href="../assets/darkness.ico">
-  <link rel="stylesheet" href="../style.css?v=1">
-  <link rel="stylesheet" href="admin.css?v=5">
+  <link rel="stylesheet" href="../style.css?v=18">
+  <link rel="stylesheet" href="admin.css?v=6">
 </head>
 <body>
   <div id="view-login" class="view view--login">
-    <form id="login-form" class="login-card">
-      <img src="../assets/darkness.ico" alt="Logo" class="login-logo">
-      <h1>Panel de administración</h1>
+    <div class="login-card">
+      <div class="terminal-bar login-terminal-bar" aria-hidden="true">
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-title">❯ ~/admin</span>
+      </div>
+      <form id="login-form" class="login-inner">
+        <img src="../assets/darkness.ico" alt="Logo" class="login-logo">
+        <h1>Panel de administración</h1>
 
-      <label for="login-email">Correo</label>
-      <input type="email" id="login-email" name="email" required autocomplete="email">
+        <label for="login-email">Correo</label>
+        <input type="email" id="login-email" name="email" required autocomplete="email">
 
-      <label for="login-password">Contraseña</label>
-      <input type="password" id="login-password" name="password" required autocomplete="current-password">
+        <label for="login-password">Contraseña</label>
+        <input type="password" id="login-password" name="password" required autocomplete="current-password">
 
-      <p id="login-error" class="login-error" hidden></p>
+        <p id="login-error" class="login-error" hidden></p>
 
-      <button type="submit" id="login-submit">Iniciar sesión</button>
-    </form>
+        <button type="submit" id="login-submit">Iniciar sesión</button>
+      </form>
+    </div>
   </div>
 
   <div id="view-panel" class="view view--panel hidden">
     <header class="panel-header">
-      <strong>Panel de administración</strong>
+      <strong class="panel-brand">❯ ~/admin</strong>
       <div class="panel-user">
         <span id="panel-email"></span>
         <button id="logout" class="btn btn--small btn--secondary">⦕Cerrar sesión⦖</button>
@@ -40,15 +48,17 @@
       <aside class="panel-nav">
         <nav>
           <ul>
-            <li><a href="#" data-view="perfil" class="active">Perfil</a></li>
-            <li><a href="#" data-view="experiencia">Experiencia</a></li>
-            <li><a href="#" data-view="educacion">Educación</a></li>
-            <li><a href="#" data-view="certificaciones">Certificaciones</a></li>
-            <li><a href="#" data-view="proyectos">Proyectos</a></li>
-            <li><a href="#" data-view="habilidades">Habilidades</a></li>
-            <li><a href="#" data-view="contacto">Contacto</a></li>
-            <li><a href="#" data-view="medios">Medios</a></li>
-            <li><a href="#" data-view="tokens">Tokens</a></li>
+            <li class="panel-group">Contenido</li>
+            <li><a href="#" data-view="perfil" data-num="01" class="active">Perfil</a></li>
+            <li><a href="#" data-view="experiencia" data-num="02">Experiencia</a></li>
+            <li><a href="#" data-view="educacion" data-num="03">Educación</a></li>
+            <li><a href="#" data-view="certificaciones" data-num="04">Certificaciones</a></li>
+            <li><a href="#" data-view="proyectos" data-num="05">Proyectos</a></li>
+            <li><a href="#" data-view="habilidades" data-num="06">Habilidades</a></li>
+            <li><a href="#" data-view="contacto" data-num="07">Contacto</a></li>
+            <li class="panel-group">Sistema</li>
+            <li><a href="#" data-view="medios" data-num="08">Medios</a></li>
+            <li><a href="#" data-view="tokens" data-num="09">Tokens</a></li>
           </ul>
         </nav>
       </aside>
@@ -63,6 +73,6 @@
   <script src="../assets/vendor/supabase-js.min.js?v=1"></script>
   <script src="../assets/vendor/sha256.js?v=1"></script>
   <script src="../supabase-config.js?v=1"></script>
-  <script src="admin.js?v=13"></script>
+  <script src="admin.js?v=14"></script>
 </body>
 </html>
