@@ -7,13 +7,15 @@
 //
 // Notas de seguridad:
 //   - El object_key solo lo conoce esta función (RPC security definer).
+//   - El RPC get_media_asset se invoca con la service role key (solo servidor);
+//     anon/authenticated tienen el execute revocado (security-fixes.sql).
 //   - Rate limiting básico en memoria (una instancia); no sustituye un WAF.
 //   - Nunca registrar tokens de sesión ni object_keys en logs.
 
 import { presignUrl } from "../_shared/sign.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const R2_ENDPOINT = Deno.env.get("R2_ENDPOINT")!;
 const R2_BUCKET = Deno.env.get("R2_BUCKET")!;
 const R2_ACCESS_KEY_ID = Deno.env.get("R2_ACCESS_KEY_ID")!;
@@ -60,8 +62,8 @@ async function getMediaAsset(assetId: number, sessionToken: string | null) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_media_asset`, {
     method: "POST",
     headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ p_asset_id: assetId, p_session_token: sessionToken }),

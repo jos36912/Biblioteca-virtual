@@ -23,7 +23,7 @@ Una web personal profesional de una sola página, con diseño oscuro y contenido
 
 ## Versionado
 
-El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.10.0-beta.16`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
+El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.10.0-beta.17`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
 
 - **MAJOR** sube con cambios que rompen lo anterior o al alcanzar la versión estable `1.0.0`.
 - **MINOR** sube al agregar funcionalidades nuevas (`0.9.0` → `0.10.0`).
@@ -53,6 +53,7 @@ style.css          Estilos y tema oscuro.
 supabase-config.js Configuración compartida de Supabase (URL + anon key).
 supabase/schema.sql  Esquema de la base de datos (tablas, RLS, vistas y funciones RPC).
 supabase/security-hardening.sql   Endurecimiento de RLS (aprestado sobre schema.sql).
+supabase/security-fixes.sql   Correcciones de auditoría (beta.17): filtro público en certifications_public, get_media_asset solo servidor (service_role) y purga de sesiones vencidas (aplicar en el SQL editor).
 supabase/multisite.sql  Migración F1 (0.10.0): context por fila + perfil/contacto por sitio (aplicar en el SQL editor).
 supabase/config.toml Configuración del CLI (funciones edge: media-gateway, media-upload, media-delete).
 supabase/functions/  Edge Functions (Media Gateway + admin de medios, sin dependencias externas).
@@ -104,7 +105,7 @@ Cada elemento de contenido define quién puede verlo:
 
 - `validate_recruiter_token(p_token)` — valida un token y abre una sesión temporal (`access_sessions`).
 - `get_recruiter_content(p_session_token)` — devuelve el contenido ampliado (`public` + `recruiter`) solo para una sesión válida y no revocada.
-- `get_media_asset(p_asset_id, p_session_token)` — autoriza la entrega de un archivo por visibilidad (la usa el Media Gateway; el frontend no la invoca).
+- `get_media_asset(p_asset_id, p_session_token)` — autoriza la entrega de un archivo por visibilidad. La invoca **solo el servidor** (Media Gateway, con la service role key); anon y authenticated tienen el `execute` revocado (`supabase/security-fixes.sql`), de modo que el `object_key` nunca es obtenible por el navegador vía REST.
 
 Los tokens y las sesiones se almacenan como **SHA-256 de los bytes** del valor entregado; nunca en texto plano (ver `SECURITY.md`).
 
@@ -132,6 +133,11 @@ Cloudflare R2 (bucket privado)
   supabase functions deploy media-gateway media-upload media-delete --use-api
   ```
   El flag `--use-api` bundlea del lado servidor y evita el bundler local.
+- `get_media_asset` se invoca desde el gateway con la **service role key**; antes de desplegar, definirla como secret:
+  ```bash
+  supabase secrets set SUPABASE_SERVICE_ROLE_KEY=…
+  ```
+- Aplicar además `supabase/security-fixes.sql` en el SQL Editor (restaura el filtro público de `certifications_public`, revoca `get_media_asset` de anon/authenticated y purga sesiones vencidas al validar tokens).
 
 ## Panel de administración
 
