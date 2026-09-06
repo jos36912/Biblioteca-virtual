@@ -44,6 +44,7 @@
   "profile": [
     {
       "id": 1,
+      "context": "tech",
       "name": null,
       "role": "Entusiasta de la ciberseguridad y del desarrollo en Python",
       "tagline": "Aprendiz constante, con interés en ciberseguridad, Redes, Linux y automatización con Python.",
@@ -57,6 +58,24 @@
         "Trabajo con Supabase, GitHub Pages y una arquitectura centrada en privacidad, exposición controlada.",
         "Estoy desarrollando habilidades en Python, Redes, Linux y ciberseguridad."
       ]
+    },
+    {
+      "id": 2,
+      "context": "trayectoria",
+      "name": "Tu Nombre",
+      "role": "Tu rol profesional",
+      "tagline": "Frase de tu recorrido: en qué te especializas y qué aportas.",
+      "photo": "",
+      "location": "",
+      "summary": [
+        "Párrafo sobre tu trayectoria: formación, sectores y evolución.",
+        "Segundo párrafo opcional: logros acumulados y visión profesional."
+      ],
+      "highlights": [
+        "Hito profesional 1",
+        "Hito profesional 2",
+        "Hito profesional 3"
+      ]
     }
   ],
   "experience": [
@@ -69,7 +88,8 @@
       "tech": [
         "Excel Básico para registros."
       ],
-      "visibility": "public"
+      "visibility": "public",
+      "context": "ambos"
     },
     {
       "id": 4,
@@ -78,7 +98,8 @@
       "period": "Años anteriores",
       "summary": "- Trabajo físico y operativo.\n- Adaptación a diferentes entornos laborales.\n- Cumplimiento de instrucciones y procedimientos.\n- Trabajo bajo presión y cumplimiento de horarios.\n- Responsabilidad sobre tareas asignadas.\n- Adaptación a diferentes equipos de trabajo.",
       "tech": [],
-      "visibility": "public"
+      "visibility": "public",
+      "context": "ambos"
     }
   ],
   "education": [
@@ -88,7 +109,8 @@
       "institution": "CINDEA SAN ANTONIO DEL HUMO",
       "period": "2023 - 2024",
       "notes": "",
-      "visibility": "public"
+      "visibility": "public",
+      "context": "ambos"
     },
     {
       "id": 2,
@@ -96,7 +118,8 @@
       "institution": "CINDEA SAN ANTONIO DEL HUMO",
       "period": "2021 - 2022",
       "notes": "",
-      "visibility": "public"
+      "visibility": "public",
+      "context": "ambos"
     }
   ],
   "projects": [
@@ -114,7 +137,8 @@
       ],
       "repo": "https://github.com/jos36912/portfolio",
       "demo": "https://jos36912.github.io/portfolio/",
-      "visibility": "public"
+      "visibility": "public",
+      "context": "ambos"
     }
   ],
   "skills": [
@@ -128,7 +152,8 @@
         "CSS3",
         "Consumo de APIs"
       ],
-      "visibility": "public"
+      "visibility": "public",
+      "context": "ambos"
     },
     {
       "id": 3,
@@ -140,7 +165,8 @@
         "Permisos y procesos",
         "Uso de servicios y paquetes"
       ],
-      "visibility": "public"
+      "visibility": "public",
+      "context": "ambos"
     },
     {
       "id": 4,
@@ -152,22 +178,34 @@
         "VS Code",
         "Automatización con scripts"
       ],
-      "visibility": "public"
+      "visibility": "public",
+      "context": "ambos"
     }
   ],
   "contact": [
     {
       "id": 1,
+      "context": "tech",
       "email": "carless_five332@simplelogin.com",
       "github": "https://github.com/jos36912",
       "linkedin": "https://www.linkedin.com/in/jeyson-jarquin-b6983b340?utm_source=share_via&utm_content=profile&utm_medium=member_android",
       "website": "https://jos36912.github.io/portfolio/#inicio",
       "message": "Si mi perfil encaja con una oportunidad profesional, con gusto puedes contactarme para hablar sobre vacantes o colaboración."
+    },
+    {
+      "id": 2,
+      "context": "trayectoria",
+      "email": "tucorreo@ejemplo.com",
+      "github": "",
+      "linkedin": "",
+      "website": "",
+      "message": "Texto invitando a contactarte por colaboraciones profesionales."
     }
   ],
   "certifications": [
     {
       "id": 5,
+      "context": "ambos",
       "title": "Manipulación de alimentos",
       "issuer": "Grupo Meguz de Occidente S.A. / MG Capacitación Profesional",
       "date": "10/11/2024 - 06/01/2024",
@@ -182,6 +220,7 @@
     },
     {
       "id": 6,
+      "context": "ambos",
       "title": "Buenas Prácticas de Manufactura (BPM)",
       "issuer": "Grupo Meguz de Occidente, S.A. (MG Capacitación Profesional)",
       "date": "11/11/2024 - 07/03/2025",
@@ -196,6 +235,7 @@
     },
     {
       "id": 7,
+      "context": "ambos",
       "title": "Servicio al Cliente",
       "issuer": "Grupo Meguz de Occidente, S.A. (MG Capacitación Profesional)",
       "date": "11/11/2024 - 07/03/2025",
@@ -210,6 +250,7 @@
     },
     {
       "id": 8,
+      "context": "ambos",
       "title": "Manejo de Inventarios",
       "issuer": "Grupo Meguz de Occidente, S.A. (MG Capacitación Profesional)",
       "date": "11/11/2024 - 07/03/2025",
@@ -224,6 +265,7 @@
     },
     {
       "id": 9,
+      "context": "ambos",
       "title": "Habilidades Blandas",
       "issuer": "Grupo Meguz de Occidente, S.A. (MG Capacitación Profesional)",
       "date": "11/11/2024 - 07/03/2025",
@@ -238,6 +280,7 @@
     },
     {
       "id": 10,
+      "context": "ambos",
       "title": "Herramientas y Técnicas de Control de Calidad",
       "issuer": "Grupo Meguz de Occidente, S.A. (MG Capacitación Profesional)",
       "date": "11/11/2024 - 07/03/2025",
