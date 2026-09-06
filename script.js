@@ -138,7 +138,7 @@ function el(tag, className, text) {
   return node;
 }
 
-function buildHeader(sections, data) {
+function buildHeader(sections) {
   const header = el('header', 'site-header');
   const nav = el('nav', 'nav');
   const list = el('ul');
@@ -156,10 +156,10 @@ function buildHeader(sections, data) {
   header.appendChild(nav);
   document.body.prepend(header);
 
-  if (SITE_CONTEXT === 'tech') buildSidebar(sections, data);
+  if (SITE_CONTEXT === 'tech') buildSidebar(sections);
 }
 
-function buildSidebar(sections, data) {
+function buildSidebar(sections) {
   if (document.getElementById('sidebar-nav')) return;
 
   const rendered = new Set(sections.map((section) => section.id));
@@ -193,40 +193,7 @@ function buildSidebar(sections, data) {
   cols.appendChild(list);
   sid.appendChild(brand);
   sid.appendChild(cols);
-  sid.appendChild(buildSidebarStatus(data));
   document.body.appendChild(sid);
-}
-
-function buildSidebarStatus(data) {
-  const status = el('div', 'sidebar-status');
-  const avail = el('div', 'sidebar-avail');
-  avail.innerHTML = '<span class="sidebar-avail-dot"></span>disponible para proyectos';
-  status.appendChild(avail);
-
-  const socials = el('div', 'sidebar-socials');
-  const contact = (data && data.contact) || {};
-  const entries = [
-    { key: 'email', label: 'Correo', value: contact.email, href: 'mailto:' + contact.email },
-    { key: 'github', label: 'GitHub', value: contact.github },
-    { key: 'linkedin', label: 'LinkedIn', value: contact.linkedin },
-    { key: 'website', label: 'Sitio web', value: contact.website }
-  ];
-  entries.forEach((entry) => {
-    if (!isFieldVisible(contact, entry.key) || !entry.value) return;
-    const link = el('a', 'sidebar-social');
-    link.href = entry.href || entry.value;
-    link.title = entry.label;
-    link.setAttribute('aria-label', entry.label);
-    if (entry.key !== 'email') {
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-    }
-    link.innerHTML = SOCIAL_ICONS[entry.key] || '';
-    socials.appendChild(link);
-  });
-
-  status.appendChild(socials);
-  return status;
 }
 
 function createSection(section) {
@@ -1249,7 +1216,7 @@ function render(data) {
 
   const sections = data.sections.filter((section) => sectionHasVisibleContent(section, data));
 
-  buildHeader(sections, data);
+  buildHeader(sections);
 
   sections.forEach((section) => {
     const sec = createSection(section);
