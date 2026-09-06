@@ -101,9 +101,12 @@ create index if not exists idx_certifications_context on certifications(context)
 -- ============================================================
 -- Vistas públicas: ahora exponen context para que cada sitio filtre.
 -- RLS sin cambios: anon sigue viendo solo filas 'public'.
+-- NOTA: se hace drop + create (no create or replace) porque insertar
+-- context entre columnas existentes rompe CREATE OR REPLACE VIEW.
 -- ============================================================
 
-create or replace view profile_public as
+drop view if exists profile_public;
+create view profile_public as
 select
   id,
   context,
@@ -116,7 +119,8 @@ select
   case when highlights_visibility = 'public' then highlights else '{}' end as highlights
 from profile;
 
-create or replace view contact_public as
+drop view if exists contact_public;
+create view contact_public as
 select
   id,
   context,
@@ -127,7 +131,8 @@ select
   case when message_visibility = 'public' then message else null end as message
 from contact;
 
-create or replace view certifications_public as
+drop view if exists certifications_public;
+create view certifications_public as
 select
   c.id,
   c.context,
