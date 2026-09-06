@@ -22,7 +22,7 @@ Una web personal profesional de una sola página, con diseño oscuro y contenido
 
 ## Versionado
 
-El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.10.0-beta.1`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
+El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.10.0-beta.2`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
 
 - **MAJOR** sube con cambios que rompen lo anterior o al alcanzar la versión estable `1.0.0`.
 - **MINOR** sube al agregar funcionalidades nuevas (`0.9.0` → `0.10.0`).
