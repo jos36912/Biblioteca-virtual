@@ -18,11 +18,11 @@ Una web personal profesional de una sola página, con diseño oscuro y contenido
 - Script `sync-content.py` para regenerar `data/content.json` desde Supabase, automatizado con **GitHub Actions** (se regenera solo en cada push y a diario).
 - Favicon propio (`assets/darkness.ico`).
 - Compatible con dispositivos móviles y escritorio.
-- **Dos sitios en una plataforma (multiperfil)**: el sitio actual (perfil tecnológico) y **`trayectoria/`** — separación profesional por narrativa. Ambos comparten panel, Supabase, RLS, Media Gateway y tokens; `script.js` es parametrizable por `window.SITE_CONFIG` (secciones, título, contexto y fuente de datos), así que ambos sitios usan el mismo motor de render. Trayectoria tiene tema propio: layout amplio de escritorio y fondo con **gráficos vectoriales por capas** (radiancias + esquema de ruta + línea de tiempo). El contenido se clasifica por **`context`** (`tech`/`trayectoria`/`ambos`, ver `supabase/multisite.sql`): es presentación, no frontera de seguridad — RLS sigue filtrando por `visibility`.
+- **Dos sitios en una plataforma (multiperfil)**: el sitio actual (perfil tecnológico) y **`trayectoria/`** — separación profesional por narrativa. Ambos comparten panel, Supabase, RLS, Media Gateway y tokens; `script.js` es parametrizable por `window.SITE_CONFIG` (secciones, título, contexto y fuente de datos), así que ambos sitios usan el mismo motor de render. Trayectoria tiene tema propio: layout amplio de escritorio y fondo con **gráficos vectoriales por capas** (radiancias + esquema de ruta + línea de tiempo). El contenido se clasifica por **`context`** (`tech`/`trayectoria`/`ambos`, ver `supabase/multisite.sql`): es presentación, no frontera de seguridad — RLS sigue filtrando por `visibility`. El panel de administración incluye **selector de contexto**: en Perfil/Contacto eliges el sitio a editar y cada registro de las listas muestra un badge y filtro por sitio.
 
 ## Versionado
 
-El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.10.0-beta.5`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
+El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.10.0-beta.6`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
 
 - **MAJOR** sube con cambios que rompen lo anterior o al alcanzar la versión estable `1.0.0`.
 - **MINOR** sube al agregar funcionalidades nuevas (`0.9.0` → `0.10.0`).
