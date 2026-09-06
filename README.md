@@ -18,10 +18,11 @@ Una web personal profesional de una sola página, con diseño oscuro y contenido
 - Script `sync-content.py` para regenerar `data/content.json` desde Supabase, automatizado con **GitHub Actions** (se regenera solo en cada push y a diario).
 - Favicon propio (`assets/darkness.ico`).
 - Compatible con dispositivos móviles y escritorio.
+- **Dos sitios en una plataforma (multiperfil)**: el sitio actual (perfil tecnológico) y **`trayectoria/`** — separación profesional por narrativa. Ambos comparten panel, Supabase, RLS, Media Gateway y tokens; `script.js` es parametrizable por `window.SITE_CONFIG` (secciones, título, fuente de datos), así que ambos sitios usan el mismo motor de render. Trayectoria tiene tema propio: layout amplio de escritorio y fondo con **gráficos vectoriales por capas** (radiancias + esquema de ruta + línea de tiempo).
 
 ## Versionado
 
-El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.9.0-beta.8`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
+El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.10.0-beta.1`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
 
 - **MAJOR** sube con cambios que rompen lo anterior o al alcanzar la versión estable `1.0.0`.
 - **MINOR** sube al agregar funcionalidades nuevas (`0.9.0` → `0.10.0`).
@@ -58,6 +59,9 @@ admin/             Panel de administración (login + panel), en carpeta separada
 admin/index.html   Página del panel (se accede en /admin/).
 admin/admin.js     Lógica de sesión, login y módulos del panel.
 admin/admin.css    Estilos del panel de administración.
+trayectoria/       Segundo sitio: "Trayectoria profesional" (recorrido laboral y formación).
+trayectoria/index.html   Página del sitio Trayectoria (configura `window.SITE_CONFIG` y reutiliza `script.js`).
+trayectoria/trayectoria.css  Tema propio de Trayectoria: layout amplio de escritorio + fondo vectorial por capas.
 .github/workflows/ Automatización con GitHub Actions (regenera data/content.json).
 cambios/           Informes y propuestas de evolución del proyecto.
 ```

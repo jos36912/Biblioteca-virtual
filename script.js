@@ -1,12 +1,13 @@
-const DATA_URL = 'data/content.json';
+const SITE_CONFIG = window.SITE_CONFIG || {};
 
-const DEFAULT_SITE = {
-  title: 'Portfolio',
-  lang: 'es',
-  theme: 'dark'
-};
+const DATA_URL = SITE_CONFIG.data_url || 'data/content.json';
 
-const DEFAULT_SECTIONS = [
+const DEFAULT_SITE = Object.assign(
+  { title: 'Portfolio', lang: 'es', theme: 'dark' },
+  SITE_CONFIG.site
+);
+
+const DEFAULT_SECTIONS = SITE_CONFIG.sections || [
   { id: 'inicio', label: 'Inicio', type: 'hero' },
   { id: 'sobre-mi', label: 'Sobre mí', type: 'about' },
   { id: 'cv', label: 'Hoja de vida', type: 'cv' },
@@ -31,9 +32,9 @@ function isRecruiterActive() {
   return Boolean(extendedData);
 }
 
-const HERO_FIELDS = ['name', 'role', 'tagline', 'photo'];
-const ABOUT_FIELDS = ['summary', 'highlights'];
-const CONTACT_FIELDS = ['email', 'github', 'linkedin', 'website', 'message'];
+const HERO_FIELDS = SITE_CONFIG.hero_fields || ['name', 'role', 'tagline', 'photo'];
+const ABOUT_FIELDS = SITE_CONFIG.about_fields || ['summary', 'highlights'];
+const CONTACT_FIELDS = SITE_CONFIG.contact_fields || ['email', 'github', 'linkedin', 'website', 'message'];
 
 function isFieldVisible(item, key) {
   const level = item[key + '_visibility'];
