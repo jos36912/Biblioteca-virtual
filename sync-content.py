@@ -9,11 +9,13 @@ Uso:
     python3 sync-content.py
 
 Como respaldo publico, solo descarga contenido con visibilidad publica:
-profile y contact se leen desde las vistas profile_public/contact_public,
+profile y contact se leen desde las vistas profile_public/contact_public
+(ya no son single-row: devuelven una fila por sitio con su campo `context`),
 certifications desde certifications_public y las tablas de listas aplican RLS
 (anon solo ve filas 'public'). media_assets se lee desde la vista
 media_assets_public (metadatos sin object_key); los archivos se sirven por el
-Media Gateway, nunca en bruto.
+Media Gateway, nunca en bruto. El campo `context` viaja en cada fila para que
+cada sitio filtre por presentación al cargar.
 """
 import json
 import re
@@ -36,7 +38,6 @@ TABLES = {
     'certifications': 'certifications_public',
     'media_assets': 'media_assets_public',
 }
-SINGLE = {'profile_public', 'contact_public'}
 
 
 def load_config(path):
@@ -57,9 +58,7 @@ def fetch_rows(base_url, anon_key, table):
     })
     with urllib.request.urlopen(request, timeout=30) as response:
         rows = json.loads(response.read().decode('utf-8'))
-    if not rows:
-        return []
-    return rows[0] if table in SINGLE else rows
+    return rows or []
 
 
 def main():

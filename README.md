@@ -18,11 +18,11 @@ Una web personal profesional de una sola página, con diseño oscuro y contenido
 - Script `sync-content.py` para regenerar `data/content.json` desde Supabase, automatizado con **GitHub Actions** (se regenera solo en cada push y a diario).
 - Favicon propio (`assets/darkness.ico`).
 - Compatible con dispositivos móviles y escritorio.
-- **Dos sitios en una plataforma (multiperfil)**: el sitio actual (perfil tecnológico) y **`trayectoria/`** — separación profesional por narrativa. Ambos comparten panel, Supabase, RLS, Media Gateway y tokens; `script.js` es parametrizable por `window.SITE_CONFIG` (secciones, título, fuente de datos), así que ambos sitios usan el mismo motor de render. Trayectoria tiene tema propio: layout amplio de escritorio y fondo con **gráficos vectoriales por capas** (radiancias + esquema de ruta + línea de tiempo).
+- **Dos sitios en una plataforma (multiperfil)**: el sitio actual (perfil tecnológico) y **`trayectoria/`** — separación profesional por narrativa. Ambos comparten panel, Supabase, RLS, Media Gateway y tokens; `script.js` es parametrizable por `window.SITE_CONFIG` (secciones, título, contexto y fuente de datos), así que ambos sitios usan el mismo motor de render. Trayectoria tiene tema propio: layout amplio de escritorio y fondo con **gráficos vectoriales por capas** (radiancias + esquema de ruta + línea de tiempo). El contenido se clasifica por **`context`** (`tech`/`trayectoria`/`ambos`, ver `supabase/multisite.sql`): es presentación, no frontera de seguridad — RLS sigue filtrando por `visibility`.
 
 ## Versionado
 
-El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.10.0-beta.3`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
+El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.10.0-beta.4`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
 
 - **MAJOR** sube con cambios que rompen lo anterior o al alcanzar la versión estable `1.0.0`.
 - **MINOR** sube al agregar funcionalidades nuevas (`0.9.0` → `0.10.0`).
@@ -51,6 +51,8 @@ script.js          Carga el contenido (Supabase → fallback content.json) y ren
 style.css          Estilos y tema oscuro.
 supabase-config.js Configuración compartida de Supabase (URL + anon key).
 supabase/schema.sql  Esquema de la base de datos (tablas, RLS, vistas y funciones RPC).
+supabase/security-hardening.sql   Endurecimiento de RLS (aprestado sobre schema.sql).
+supabase/multisite.sql  Migración F1 (0.10.0): context por fila + perfil/contacto por sitio (aplicar en el SQL editor).
 supabase/config.toml Configuración del CLI (funciones edge: media-gateway, media-upload, media-delete).
 supabase/functions/  Edge Functions (Media Gateway + admin de medios, sin dependencias externas).
 supabase/.env.local  Secrets locales para probar las funciones (gitignored).

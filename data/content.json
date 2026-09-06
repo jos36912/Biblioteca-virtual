@@ -41,22 +41,24 @@
       "type": "recruiter"
     }
   ],
-  "profile": {
-    "id": 1,
-    "name": null,
-    "role": "Entusiasta de la ciberseguridad y del desarrollo en Python",
-    "tagline": "Aprendiz constante, con interés en ciberseguridad, Redes, Linux y automatización con Python.",
-    "photo": "",
-    "location": null,
-    "summary": [
-      "Actualmente estoy enfocando mi aprendizaje y mis proyectos en el área de ciberseguridad, mientras continúo fortaleciendo mis habilidades técnicas y mi experiencia práctica en desarrollo y administración de contenido."
-    ],
-    "highlights": [
-      "Diseñé y mantengo una web personal con contenido administrable desde un panel privado.",
-      "Trabajo con Supabase, GitHub Pages y una arquitectura centrada en privacidad, exposición controlada.",
-      "Estoy desarrollando habilidades en Python, Redes, Linux y ciberseguridad."
-    ]
-  },
+  "profile": [
+    {
+      "id": 1,
+      "name": null,
+      "role": "Entusiasta de la ciberseguridad y del desarrollo en Python",
+      "tagline": "Aprendiz constante, con interés en ciberseguridad, Redes, Linux y automatización con Python.",
+      "photo": "",
+      "location": null,
+      "summary": [
+        "Actualmente estoy enfocando mi aprendizaje y mis proyectos en el área de ciberseguridad, mientras continúo fortaleciendo mis habilidades técnicas y mi experiencia práctica en desarrollo y administración de contenido."
+      ],
+      "highlights": [
+        "Diseñé y mantengo una web personal con contenido administrable desde un panel privado.",
+        "Trabajo con Supabase, GitHub Pages y una arquitectura centrada en privacidad, exposición controlada.",
+        "Estoy desarrollando habilidades en Python, Redes, Linux y ciberseguridad."
+      ]
+    }
+  ],
   "experience": [
     {
       "id": 1,
@@ -153,14 +155,16 @@
       "visibility": "public"
     }
   ],
-  "contact": {
-    "id": 1,
-    "email": "carless_five332@simplelogin.com",
-    "github": "https://github.com/jos36912",
-    "linkedin": "https://www.linkedin.com/in/jeyson-jarquin-b6983b340?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-    "website": "https://jos36912.github.io/portfolio/#inicio",
-    "message": "Si mi perfil encaja con una oportunidad profesional, con gusto puedes contactarme para hablar sobre vacantes o colaboración."
-  },
+  "contact": [
+    {
+      "id": 1,
+      "email": "carless_five332@simplelogin.com",
+      "github": "https://github.com/jos36912",
+      "linkedin": "https://www.linkedin.com/in/jeyson-jarquin-b6983b340?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      "website": "https://jos36912.github.io/portfolio/#inicio",
+      "message": "Si mi perfil encaja con una oportunidad profesional, con gusto puedes contactarme para hablar sobre vacantes o colaboración."
+    }
+  ],
   "certifications": [
     {
       "id": 5,
