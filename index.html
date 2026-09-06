@@ -1,22 +1,52 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bg="graphite">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>⛓Portfolio⛓</title>
   <meta name="description" content="Web personal profesional.">
   <link rel="icon" type="image/x-icon" href="assets/darkness.ico">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
+  <div class="bg-toggle" role="group" aria-label="Cambiar tono de fondo">
+    <button type="button" data-bg="acid" aria-pressed="false">Acid</button>
+    <button type="button" data-bg="graphite" aria-pressed="true">Grafito</button>
+  </div>
   <main id="app"></main>
   <footer class="site-footer">
     <a class="peer-link" href="trayectoria/">Ver mi trayectoria profesional →</a>
     <a class="footer-admin" href="admin/">༺༼༐౷෴಄༐༽༻</a>
     <p class="footer-text">© 2026 Jeyson. Todos los derechos reservados.</p>
-    <p>Versión 0.10.0-beta.10</p>
+    <p>Versión 0.10.0-beta.11</p>
   </footer>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var buttons = Array.prototype.slice.call(document.querySelectorAll('.bg-toggle button'));
+      function apply(bg) {
+        root.setAttribute('data-bg', bg);
+        buttons.forEach(function (b) {
+          b.classList.toggle('active', b.getAttribute('data-bg') === bg);
+          b.setAttribute('aria-pressed', b.getAttribute('data-bg') === bg ? 'true' : 'false');
+        });
+        try {
+          localStorage.setItem('portfolio-bg', bg);
+        } catch (e) {}
+      }
+      var saved = null;
+      try {
+        saved = localStorage.getItem('portfolio-bg');
+      } catch (e) {}
+      apply(saved || root.getAttribute('data-bg'));
+      buttons.forEach(function (b) {
+        b.addEventListener('click', function () {
+          apply(b.getAttribute('data-bg'));
+        });
+      });
+    })();
+  </script>
   <script src="supabase-config.js?v=2"></script>
-  <script src="script.js?v=23"></script>
+  <script src="script.js?v=24"></script>
 </body>
 </html>

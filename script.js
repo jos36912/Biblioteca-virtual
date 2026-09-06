@@ -146,6 +146,35 @@ function buildHeader(sections) {
   nav.appendChild(list);
   header.appendChild(nav);
   document.body.prepend(header);
+
+  if (SITE_CONTEXT === 'tech') buildSidebar(sections);
+}
+
+function buildSidebar(sections) {
+  if (!document.getElementById('sidebar-nav')) {
+    const count = Math.max(sections.length, 6);
+    const brand = el('div', 'sidebar-brand');
+    brand.textContent = '~/jeyson';
+    const countEl = el('div', 'sidebar-count');
+    countEl.textContent = String(count).padStart(2, '0') + ' secciones';
+    const sid = el('aside', 'nav-sidebar');
+    sid.id = 'sidebar-nav';
+    const cols = el('nav', 'sidebar-nav');
+    const list = el('ul');
+    sections.forEach((section) => {
+      const item = el('li');
+      const link = el('a', null, section.label);
+      link.href = '#' + section.id;
+      link.dataset.section = section.id;
+      item.appendChild(link);
+      list.appendChild(item);
+    });
+    cols.appendChild(list);
+    sid.appendChild(brand);
+    sid.appendChild(cols);
+    sid.appendChild(countEl);
+    document.body.appendChild(sid);
+  }
 }
 
 function createSection(section) {
@@ -188,7 +217,44 @@ function renderHero(sec, profile) {
   actions.appendChild(contactLink);
   inner.appendChild(actions);
 
+  if (SITE_CONTEXT === 'tech') {
+    inner.appendChild(buildHeroTerminal(profile));
+    const heroWrap = el('div', 'hero-split');
+    heroWrap.appendChild(inner);
+    sec.appendChild(heroWrap);
+    return;
+  }
+
   sec.appendChild(inner);
+}
+
+function buildHeroTerminal(profile) {
+  const term = el('div', 'hero-terminal', null);
+  const bar = el('div', 'terminal-bar', null);
+  [0, 1, 2].forEach(() => bar.appendChild(el('span', 'terminal-dot', null)));
+  const cmd = el('div', 'terminal-title', 'zsh — jeyson');
+  bar.appendChild(cmd);
+  term.appendChild(bar);
+
+  const body = el('div', 'terminal-body', null);
+  const lines = [
+    ['$', 'whoami'],
+    ['', (profile.name || 'Jeyson')],
+    ['$', 'cat role.txt'],
+    ['', (profile.role || 'Developer')],
+    ['$', 'ls ~/skills'],
+    ['', 'front-end/  back-end/  devops/  ai/'],
+    ['$', 'deploy --env=production'],
+    ['', '✓ build ok · ' + (profile.tagline || '').slice(0, 40)]
+  ];
+  lines.forEach(([prompt, text]) => {
+    const row = el('div', 'terminal-line', null);
+    if (prompt) row.appendChild(el('span', 'terminal-prompt', prompt + ' '));
+    row.appendChild(el('span', 'terminal-text', text));
+    body.appendChild(row);
+  });
+  term.appendChild(body);
+  return term;
 }
 
 function renderAbout(sec, profile) {
@@ -1175,7 +1241,7 @@ function render(data) {
 }
 
 function setupActiveNav(sections) {
-  const links = document.querySelectorAll('.nav a');
+  const links = document.querySelectorAll('.nav a, .sidebar-nav a');
 
   const observer = new IntersectionObserver(
     (entries) => {
