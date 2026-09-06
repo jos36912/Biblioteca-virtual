@@ -7,7 +7,7 @@
   <meta name="description" content="Recorrido laboral, formación y competencias profesionales.">
   <link rel="icon" type="image/x-icon" href="../assets/darkness.ico">
   <link rel="stylesheet" href="../style.css?v=14">
-  <link rel="stylesheet" href="trayectoria.css?v=5">
+  <link rel="stylesheet" href="trayectoria.css?v=6">
   <script>
     window.SITE_CONFIG = {
       context: 'trayectoria',
@@ -32,18 +32,23 @@
   <footer class="site-footer">
     <a class="peer-link" href="../">← Perfil tecnológico</a>
     <p class="footer-text">© 2026 Jeyson. Todos los derechos reservados.</p>
-    <p>Versión 0.10.0-beta.9</p>
+    <p>Versión 0.10.0-beta.10</p>
     <p><a class="footer-admin" href="../admin/">༺༼༐౷෴಄༐༽༻</a></p>
   </footer>
   <script src="../supabase-config.js?v=2"></script>
-  <script src="../script.js?v=22"></script>
+  <script src="../script.js?v=23"></script>
   <script>
     (function () {
-      function buildTrayNav() {
+      function trayLinks() {
         var source = document.querySelector('.site-header .nav ul');
-        var hero = document.querySelector('#inicio .hero');
-        if (!source || !hero || document.getElementById('tray-nav-tree')) return;
+        if (!source) return null;
+        return Array.prototype.slice.call(source.querySelectorAll('a')).filter(function (a) {
+          return a.dataset.section !== 'inicio';
+        });
+      }
 
+      function buildDesktopNav(sourceLinks, hero) {
+        if (document.getElementById('tray-nav-tree')) return;
         var tree = document.createElement('nav');
         tree.className = 'nav-tree';
         tree.id = 'tray-nav-tree';
@@ -51,7 +56,7 @@
         var list = document.createElement('ul');
         tree.appendChild(list);
 
-        source.querySelectorAll('a').forEach(function (orig) {
+        sourceLinks.forEach(function (orig) {
           var item = document.createElement('li');
           item.className = 'nav-tree-item';
           var link = document.createElement('a');
@@ -68,30 +73,83 @@
         } else {
           hero.appendChild(tree);
         }
+      }
 
-        if ('IntersectionObserver' in window) {
-          var links = list.querySelectorAll('a');
-          var observer = new IntersectionObserver(
-            function (entries) {
-              entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
+      function buildMobileNav(sourceLinks) {
+        if (document.getElementById('tray-mobile-nav')) return;
+        var bar = document.createElement('nav');
+        bar.className = 'tray-mobile-nav';
+        bar.id = 'tray-mobile-nav';
+        bar.setAttribute('aria-label', 'Navegación móvil');
+        sourceLinks.forEach(function (orig) {
+          var link = document.createElement('a');
+          link.href = orig.getAttribute('href');
+          link.textContent = orig.textContent;
+          if (orig.dataset.section) link.setAttribute('data-section', orig.dataset.section);
+          bar.appendChild(link);
+        });
+        document.body.prepend(bar);
+      }
+
+      function wireActive() {
+        if (!('IntersectionObserver' in window)) return;
+        var groups = [];
+        var tree = document.getElementById('tray-nav-tree');
+        if (tree) groups.push(tree.querySelectorAll('a'));
+        var bar = document.getElementById('tray-mobile-nav');
+        if (bar) groups.push(bar.querySelectorAll('a'));
+
+        if (window.__traySectionObserver) window.__traySectionObserver.disconnect();
+        window.__traySectionObserver = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                groups.forEach(function (links) {
                   links.forEach(function (link) {
                     link.classList.toggle('active', link.dataset.section === entry.target.id);
                   });
-                }
-              });
-            },
-            { rootMargin: '-40% 0px -55% 0px' }
-          );
-          document.querySelectorAll('#app section[id]').forEach(function (section) {
-            observer.observe(section);
-          });
-        }
+                });
+              }
+            });
+          },
+          { rootMargin: '-40% 0px -55% 0px' }
+        );
+        document.querySelectorAll('#app section[id]').forEach(function (section) {
+          window.__traySectionObserver.observe(section);
+        });
       }
 
-      var watcher = new MutationObserver(buildTrayNav);
+      function mayBuild() {
+        var links = trayLinks();
+        var hero = document.querySelector('#inicio .hero');
+        if (!links || !hero) return;
+        buildDesktopNav(links, hero);
+        buildMobileNav(links);
+        wireActive();
+      }
+
+      var watcher = new MutationObserver(mayBuild);
       watcher.observe(document.body, { childList: true, subtree: true });
-      buildTrayNav();
+      mayBuild();
+
+      function onScroll() {
+        var bar = document.getElementById('tray-mobile-nav');
+        if (!bar) return;
+        bar.classList.toggle('is-scrolled', window.scrollY > 48);
+      }
+      if (typeof requestAnimationFrame === 'function') {
+        var ticking = false;
+        window.addEventListener('scroll', function () {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function () {
+            onScroll();
+            ticking = false;
+          });
+        }, { passive: true });
+      } else {
+        window.addEventListener('scroll', onScroll, { passive: true });
+      }
     })();
   </script>
 </body>
