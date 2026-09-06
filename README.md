@@ -18,11 +18,10 @@ Una web personal profesional de una sola página, con diseño oscuro y contenido
 - Script `sync-content.py` para regenerar `data/content.json` desde Supabase, automatizado con **GitHub Actions** (se regenera solo en cada push y a diario).
 - Favicon propio (`assets/darkness.ico`).
 - Compatible con dispositivos móviles y escritorio.
-- **Mascota flotante "Cym"**: un compañero SVG que acompaña la navegación — flota suavemente, saluda al cargar, parpadea y muestra un tip juguetón al entrar en cada sección (una vez por sección, con auto-ocultación). Vive fuera de `#app` (no se reinicia con el modo reclutador), respeta `prefers-reduced-motion` y queda debajo del modal de certificados.
 
 ## Versionado
 
-El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.9.0-beta.7`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
+El sitio usa el estándar **SemVer**: `MAJOR.MINOR.PATCH` con sufijo de pre-release cuando aplica. La versión actual es **`0.9.0-beta.8`** y se muestra en el pie de página de `index.html` (único lugar visible; el workflow de `content.json` no lo toca).
 
 - **MAJOR** sube con cambios que rompen lo anterior o al alcanzar la versión estable `1.0.0`.
 - **MINOR** sube al agregar funcionalidades nuevas (`0.9.0` → `0.10.0`).

@@ -1149,7 +1149,6 @@ function render(data) {
 
   setupActiveNav(sections);
   initRevealAnimations();
-  bindMascotSections();
 }
 
 function setupActiveNav(sections) {
@@ -1196,125 +1195,6 @@ function initRevealAnimations() {
     if (node.classList.contains('is-visible') || node.closest('.certifications-carousel')) return;
     node.classList.add('reveal');
     revealObserver.observe(node);
-  });
-}
-
-const MASCOT_MESSAGES = {
-  hero: '¡Hola! 👋 Soy Cym, tu compañero por aquí.',
-  about: 'Hay datos curiosos escondidos en las viñetas 🔍',
-  cv: 'Un CV sin relleno es un sombrero sin fiesta 🎩',
-  projects: 'Estos proyectos no muerden… gracias a las pruebas 🧪',
-  skills: '¿Algo que te llame la atención? Pregunta sin miedo 💡',
-  certifications: 'Son carruseles: puedes arrastrarlos 🎢',
-  contact: '¿Hablamos? Mi correo está a un scroll ✉️',
-  recruiter: 'Un token y desbloqueas contenido extra 🗝️'
-};
-
-const MASCOT_DEFAULT_MESSAGE = '¿Necesitas algo? Estoy aquí a tu lado 💙';
-
-const mascotReduceMotion =
-  typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-const mascotTipShown = new Set();
-const mascotObserved = new Set();
-const mascotSectionsObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      const id = entry.target.id;
-      if (mascotTipShown.has(id)) return;
-      mascotTipShown.add(id);
-      if (MASCOT_MESSAGES[id]) showMascotBubble(MASCOT_MESSAGES[id], true);
-    });
-  },
-  { rootMargin: '-40% 0px -40% 0px', threshold: 0 }
-);
-
-function buildMascotSvg() {
-  return (
-    '<svg class="mascot-svg" viewBox="0 0 64 64" role="img" aria-hidden="true">' +
-    '  <path class="mascot-ear mascot-ear--l" d="M18 16 L12 2 L26 9 Z" fill="currentColor"/>' +
-    '  <path class="mascot-ear mascot-ear--r" d="M46 16 L52 2 L38 9 Z" fill="currentColor"/>' +
-    '  <circle cx="32" cy="36" r="20" fill="currentColor"/>' +
-    '  <circle class="mascot-eye" cx="25" cy="33" r="3.2" fill="#0c0e12"/>' +
-    '  <circle class="mascot-eye" cx="39" cy="33" r="3.2" fill="#0c0e12"/>' +
-    '  <circle cx="20.5" cy="38" r="2" fill="rgba(12,14,18,0.35)"/>' +
-    '  <circle cx="43.5" cy="38" r="2" fill="rgba(12,14,18,0.35)"/>' +
-    '  <path class="mascot-smile" d="M27 42 Q32 46 37 42" stroke="#0c0e12" stroke-width="2.6" fill="none" stroke-linecap="round"/>' +
-    '  <path class="mascot-arm" d="M49 42 q7 -1 7 -8" stroke="#0c0e12" stroke-width="3" fill="none" stroke-linecap="round"/>' +
-    '</svg>'
-  );
-}
-
-let mascotBubbleTimer = null;
-
-function showMascotBubble(text, auto) {
-  const bubble = document.querySelector('.mascot-bubble');
-  const textNode = bubble && bubble.querySelector('.mascot-bubble-text');
-  if (!bubble || !textNode) return;
-  clearTimeout(mascotBubbleTimer);
-  textNode.textContent = text;
-  bubble.classList.add('is-visible');
-  if (auto) {
-    mascotBubbleTimer = setTimeout(() => bubble.classList.remove('is-visible'), 4200);
-  }
-}
-
-function hideMascotBubble() {
-  clearTimeout(mascotBubbleTimer);
-  const bubble = document.querySelector('.mascot-bubble');
-  if (bubble) bubble.classList.remove('is-visible');
-}
-
-function initMascot() {
-  if (document.querySelector('.mascot')) return;
-
-  const aside = el('aside', 'mascot');
-  aside.setAttribute('aria-label', 'Compañero Cym');
-
-  const bubble = el('div', 'mascot-bubble');
-  const text = el('p', 'mascot-bubble-text', '');
-  const closeBtn = el('button', 'mascot-bubble-close', '×');
-  closeBtn.type = 'button';
-  closeBtn.setAttribute('aria-label', 'Cerrar mensaje');
-  closeBtn.addEventListener('click', (event) => {
-    event.stopPropagation();
-    hideMascotBubble();
-  });
-  bubble.appendChild(text);
-  bubble.appendChild(closeBtn);
-
-  const avatar = el('button', 'mascot-avatar', '');
-  avatar.type = 'button';
-  avatar.setAttribute('aria-label', 'Alternar mensaje de Cym');
-  avatar.innerHTML = buildMascotSvg();
-  avatar.addEventListener('click', () => {
-    if (bubble.classList.contains('is-visible')) {
-      hideMascotBubble();
-    } else {
-      showMascotBubble(MASCOT_DEFAULT_MESSAGE, false);
-    }
-  });
-
-  aside.appendChild(bubble);
-  aside.appendChild(avatar);
-  document.body.appendChild(aside);
-
-  if (!mascotReduceMotion) {
-    avatar.classList.add('is-waving');
-    setTimeout(() => avatar.classList.remove('is-waving'), 1200);
-  }
-}
-
-function bindMascotSections() {
-  if (typeof IntersectionObserver === 'undefined' || mascotReduceMotion) return;
-
-  mascotObserved.forEach((node) => mascotSectionsObserver.unobserve(node));
-  mascotObserved.clear();
-
-  app.querySelectorAll('.section').forEach((node) => {
-    mascotSectionsObserver.observe(node);
-    mascotObserved.add(node);
   });
 }
 
@@ -1373,7 +1253,6 @@ async function loadContent() {
 
 (async function init() {
   try {
-    initMascot();
     publicData = await loadContent();
     render(publicData);
 
