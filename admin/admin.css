@@ -2,6 +2,12 @@
   display: none !important;
 }
 
+.view--login,
+.view--panel {
+  position: relative;
+  z-index: 1;
+}
+
 .view--login {
   min-height: 100vh;
   display: flex;
