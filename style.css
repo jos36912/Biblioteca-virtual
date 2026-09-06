@@ -653,6 +653,22 @@ a:hover {
   color: var(--accent);
 }
 
+.about-trayectoria {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.about-trayectoria-text {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 460px;
+}
+
 /* =========================================================================
    CV / timeline
    ========================================================================= */

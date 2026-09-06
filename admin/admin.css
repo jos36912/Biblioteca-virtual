@@ -13,37 +13,62 @@
 
 .login-card {
   width: 100%;
-  max-width: 380px;
+  max-width: 390px;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--accent-border);
   border-radius: var(--radius);
-  padding: 32px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow), var(--shadow-glow);
+  overflow: hidden;
+}
+
+.login-terminal-bar {
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.login-terminal-bar .terminal-title {
+  color: var(--accent);
+}
+
+.login-inner {
+  padding: 28px 32px 32px;
+  display: grid;
+  gap: 8px;
 }
 
 .login-logo {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   object-fit: cover;
-  border-radius: 12px;
-  margin: 0 auto 20px;
+  border-radius: 10px;
+  margin: 0 auto 16px;
   display: block;
+  border: 1px solid var(--border);
 }
 
-.login-card h1 {
-  font-size: 1.3rem;
+.login-inner h1 {
+  font-size: 1.25rem;
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
 }
 
-.login-card label {
+.login-inner h1::before {
+  content: "❯ ";
+  color: var(--accent);
+}
+
+.login-inner label {
   display: block;
   font-size: 0.9rem;
   color: var(--text-muted);
-  margin: 12px 0 6px;
+  margin: 10px 0 6px;
 }
 
-.login-card input {
+.login-inner input {
   width: 100%;
   padding: 10px 12px;
   background: var(--bg);
@@ -53,9 +78,10 @@
   font: inherit;
 }
 
-.login-card input:focus {
+.login-inner input:focus {
   outline: none;
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
 }
 
 .login-error {
@@ -64,7 +90,7 @@
   font-size: 0.9rem;
 }
 
-.login-card button[type="submit"] {
+.login-inner button[type="submit"] {
   width: 100%;
   margin-top: 20px;
   padding: 12px;
@@ -77,11 +103,11 @@
   cursor: pointer;
 }
 
-.login-card button[type="submit"]:hover {
+.login-inner button[type="submit"]:hover {
   background: var(--accent);
 }
 
-.login-card button[type="submit"]:disabled {
+.login-inner button[type="submit"]:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -99,6 +125,17 @@
   padding: 12px 24px;
   background: var(--bg-alt);
   border-bottom: 1px solid var(--border);
+}
+
+.panel-brand {
+  font-family: var(--font-mono);
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.panel-brand::before {
+  content: "❯ ";
+  color: var(--accent);
 }
 
 .panel-user {
@@ -121,29 +158,76 @@
 .panel-nav {
   background: var(--bg-alt);
   border-right: 1px solid var(--border);
-  padding: 20px 0;
+  padding: 16px 0;
 }
 
 .panel-nav ul {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.panel-group {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  padding: 14px 24px 6px;
+  position: relative;
+}
+
+.panel-group::after {
+  content: "";
+  position: absolute;
+  left: 24px;
+  right: 12px;
+  bottom: 2px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-hover), transparent);
 }
 
 .panel-nav a {
   display: block;
-  padding: 10px 24px;
+  position: relative;
+  padding: 10px 24px 10px 30px;
   color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
   border-left: 3px solid transparent;
+}
+
+.panel-nav a::before {
+  content: attr(data-num);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  opacity: 0.55;
+  letter-spacing: 0.04em;
+  margin-right: 12px;
+  display: inline-block;
 }
 
 .panel-nav a:hover {
   color: var(--text);
+  background: var(--accent-dim);
   text-decoration: none;
 }
 
+.panel-nav a:hover::before {
+  color: var(--accent);
+  opacity: 1;
+}
+
 .panel-nav a.active {
-  color: var(--text);
+  color: var(--accent);
   border-left-color: var(--accent);
-  background: var(--surface);
+  background: var(--accent-dim);
+}
+
+.panel-nav a.active::before {
+  color: var(--accent-soft);
+  opacity: 1;
 }
 
 .panel-content {
@@ -366,9 +450,24 @@
 
 .module-item {
   background: var(--bg-alt);
-  border: 1px solid var(--border);
+  border: 0 solid var(--border);
+  border-top-width: 1px;
+  border-left-width: 1px;
   border-radius: var(--radius);
   padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.module-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--accent) 30%, transparent 100%);
+  opacity: 0.25;
 }
 
 .module-item-title {
